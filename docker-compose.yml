@@ -1,5 +1,5 @@
 services:
-  postgres:
+  lighthouse_db:
     image: postgres:15
     environment:
       POSTGRES_DB: lighthouse
