@@ -1,0 +1,21 @@
+{
+  "name": "lighthouse-api",
+  "version": "1.0.0",
+  "description": "API for lighthouse, a web application for habit tracking.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon ./index",
+    "start": "cross-env NODE_ENV=production node ./index",
+    "migrations:generate": "sequelize-cli migration:generate --name",
+    "migrations:run": "sequelize-cli db:migrate",
+    "migrations:revert": "sequelize-cli db:migrate:undo"
+  },
+  "keywords": [
+    "habit",
+    "node.js",
+    "express.js",
+    "javascript"
+  ],
+  "author": "Edgar Parucho",
+  "license": "ISC"
+}
