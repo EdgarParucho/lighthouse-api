@@ -3,6 +3,7 @@ const router = express.Router();
 const { createUser } = require('../services/userService.js');
 
 router.post('/', createUserHandler);
+router.get('/', (req, res) => res.json({ habits: [], records: [] }));
 
 function createUserHandler(req, res) {
   const payload = req.body;
