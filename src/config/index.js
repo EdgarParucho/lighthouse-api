@@ -1,5 +1,6 @@
-if (process.env.NODE_ENV == 'development') require('dotenv').config();
-
 module.exports = {
   dbURL: process.env.DB_URL,
+  audience: process.env.AUDIENCE,
+  issuerBaseURL: process.env.ISSUER,
+  tokenSigningAlg: process.env.TOKEN_ALG,
 };

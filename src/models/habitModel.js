@@ -49,6 +49,9 @@ class Habit extends Model {
       sequelize,
       tableName: HABIT_TABLE,
       modelName: 'Habit',
+      timeStamps: false,
+      createdAt: false,
+      updatedAt: false,
     }
   }
 }

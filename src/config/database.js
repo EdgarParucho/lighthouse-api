@@ -6,4 +6,5 @@ module.exports = {
   dialectOptions: {
     ssl: process.env.NODE_ENV === "production",
   },
+  logging: console.log
 };
