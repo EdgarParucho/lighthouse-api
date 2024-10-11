@@ -5,14 +5,11 @@ const { responseHandlerOnSuccess } = require('../utils/responseHandler.js');
 
 router.get('/', authenticator);
 
-async function authenticator(req, res, next) {
+function authenticator(req, res, next) {
   const userID = req.auth.payload.sub;
-  try {
-    const data = await authenticate(userID);
-    responseHandlerOnSuccess(res, data);
-  } catch(error) {
-    next(error);
-  }
+  authenticate(userID)
+    .then((data) => responseHandlerOnSuccess(res, data))
+    .catch((error) => next(error));
 }
 
 module.exports = { authRouter: router };
