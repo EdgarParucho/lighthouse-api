@@ -1,37 +1,14 @@
-const { responseHandlerOnError } = require('../utils/responseHandler');
-
-const isDBValidationError = (error) => {
-  return error instanceof require('sequelize').ValidationError;
-}
-
-const isDBConnectionError = (error) => {
-  const {
-    ConnectionRefusedError,
-    ConnectionTimedOutError,
-    ConnectionError,
-  } = require('sequelize');
-
-  const isConnectionError = [
-    ConnectionRefusedError,
-    ConnectionTimedOutError,
-    ConnectionError,
-  ].some(connectionError => error instanceof connectionError);
-  return isConnectionError;
-}
-
 function dbErrorHandler(error, req, res, next) {
+  const { responseHandlerOnError } = require('../utils/responseHandler');
+  
+  const isConnectionError = error instanceof require('sequelize').ConnectionError;
+  if (isConnectionError) return responseHandlerOnError(res, { statusCode: 503 });
 
-  const isValidationError = isDBValidationError(error);
-  if (isValidationError) return responseHandlerOnError(res, {
-    statusCode: 409,
-    message: error.message,
-  })
+  const isValidationError = error instanceof require('sequelize').ValidationError;
+  if (isValidationError) return responseHandlerOnError(res, { statusCode: 409 });
 
-  const isConnectionError = isDBConnectionError(error);
-  if (isConnectionError) return responseHandlerOnError(res, {
-    statusCode: 503,
-    message: 'Service is temporarily unavailable.',
-  })
+  const isDatabaseError = error instanceof require('sequelize').DatabaseError;
+  if (isDatabaseError) return responseHandlerOnError(res, { statusCode: 500 });
 
   next(error);
 }

@@ -1,17 +1,13 @@
-function responseHandlerOnSuccess(res, serviceData) {
-  const { statusCode, message, data } = serviceData;
+function responseHandlerOnSuccess(res, { statusCode = 200, data = null }) {
   res.status(statusCode).json({
-    statusCode: statusCode || 200,
-    message: message || 'OK.',
-    data: data || null,
+    statusCode,
+    data,
   });
 }
 
-function responseHandlerOnError(res, errorData) {
-  const { statusCode, message } = errorData;
-  res.status(statusCode || 500).json({
-    statusCode: statusCode || 500,
-    message: errorData.response?.data?.message || message || 'Internal server error.',
+function responseHandlerOnError(res, { statusCode = 500 }) {
+  res.status(statusCode).json({
+    statusCode,
     data: null,
   });
 }
