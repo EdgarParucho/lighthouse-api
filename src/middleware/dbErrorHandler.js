@@ -1,16 +1,9 @@
 function dbErrorHandler(error, req, res, next) {
-  const { responseHandlerOnError } = require('../utils/responseHandler');
-  
-  const isConnectionError = error instanceof require('sequelize').ConnectionError;
-  if (isConnectionError) return responseHandlerOnError(res, { statusCode: 503 });
-
-  const isValidationError = error instanceof require('sequelize').ValidationError;
-  if (isValidationError) return responseHandlerOnError(res, { statusCode: 409 });
-
-  const isDatabaseError = error instanceof require('sequelize').DatabaseError;
-  if (isDatabaseError) return responseHandlerOnError(res, { statusCode: 500 });
-
-  next(error);
+  const { ConnectionError, ValidationError, DatabaseError } = require('sequelize');
+  if (error instanceof ConnectionError) res.sendStatus(503);
+  else if (error instanceof ValidationError) res.sendStatus(409);
+  else if (error instanceof DatabaseError) res.sendStatus(500);
+  else next(error);
 }
 
 module.exports = { dbErrorHandler };

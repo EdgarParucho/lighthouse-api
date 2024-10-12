@@ -1,6 +1,3 @@
-function serverErrorHandler(error, req, res, next) {
-  const { responseHandlerOnError } = require('../utils/responseHandler');
-  responseHandlerOnError(res, { statusCode: 500, data: null });
-}
+const serverErrorHandler = (error, req, res, next) => res.sendStatus(500);
 
 module.exports = { serverErrorHandler };

@@ -11,7 +11,8 @@ const authenticate = (id) => new Promise((resolve, reject) => User.findOrCreate(
 })
   .then(([user, created]) => resolve({
     statusCode: created ? 201 : 200,
-    data: user.dataValues,
+    habits: user.dataValues.habits,
+    records: user.dataValues.records,
   }))
   .catch((error) => reject(error))
 );
