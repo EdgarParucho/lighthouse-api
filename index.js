@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const { authErrorHandler } = require('./src/middleware/authErrorHandler');
 const { dbErrorHandler } = require('./src/middleware/dbErrorHandler');
 const { serverErrorHandler } = require('./src/middleware/serverErrorHandler');
 const devMode = process.env.NODE_ENV == 'development';
@@ -11,6 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api', require('./src/routes'));
 app.use('/*', (req, res) => res.sendStatus(404));
+app.use(authErrorHandler);
 app.use(dbErrorHandler);
 app.use(serverErrorHandler);
 
