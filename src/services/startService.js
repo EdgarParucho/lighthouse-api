@@ -1,7 +1,7 @@
 const sequelize = require('../dataAccess/sequelize');
 const { User, Habit, Record } = sequelize.models;
 
-const authenticate = (id) => new Promise((resolve, reject) => User.findOrCreate({
+const start = (id) => new Promise((resolve, reject) => User.findOrCreate({
   where: { id },
   include: [
     { model: Habit, as: 'habits', attributes: { exclude: 'userID' } },
@@ -18,5 +18,5 @@ const authenticate = (id) => new Promise((resolve, reject) => User.findOrCreate(
 );
 
 module.exports = {
-  authenticate,
+  start,
 }

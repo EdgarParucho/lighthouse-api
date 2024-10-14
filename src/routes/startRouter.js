@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const { authenticate } = require('../services/authService.js');
+const { start } = require('../services/startService.js');
 
-router.get('/', authenticator);
+router.get('/', startHandler);
 
-function authenticator(req, res, next) {
+function startHandler(req, res, next) {
   const userID = req.auth.payload.sub;
-  authenticate(userID)
+  start(userID)
     .then(({ statusCode = 200, ...data }) => res.status(statusCode).json({ ...data }))
     .catch((error) => next(error));
 }
 
-module.exports = { authRouter: router };
+module.exports = { startRouter: router };

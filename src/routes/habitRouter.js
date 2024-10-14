@@ -1,8 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const { CreateHabit } = require('../services/habitService');
+const schemaValidator = require('../middleware/schemaValidator');
+const { createHabitSchema } = require('../utils/validationSchemas');
 
-router.post('/', createHabitHandler);
+router.post('/',
+  schemaValidator({ validationKey: 'body', schema: createHabitSchema }),
+  createHabitHandler,
+);
 
 function createHabitHandler(req, res, next) {
   const userID = req.auth.payload.sub;
