@@ -1,4 +1,4 @@
-const isValidDate = require('../utils/dateValidator.js');
+const { isValidDate } = require('../utils/dateValidator.js');
 
 const createHabitSchema = {
   name: {

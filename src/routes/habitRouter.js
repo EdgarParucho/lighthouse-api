@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const { CreateHabit, UpdateHabit } = require('../services/habitService');
 const schemaValidator = require('../middleware/schemaValidator');
 const idSchema = require('../validationSchemas/idValidationSchema');
 const {
@@ -26,6 +25,7 @@ router.delete('/:id',
 
 function createHabitHandler(req, res, next) {
   const userID = req.auth.payload.sub;
+  const { CreateHabit } = require('../services/habitService');
   CreateHabit({ userID, name: req.body.name })
     .then((data) => res.status(201).json(data))
     .catch((error) => next(error))
@@ -34,6 +34,7 @@ function createHabitHandler(req, res, next) {
 function updateHabitHandler(req, res, next) {
   const userID = req.auth.payload.sub;
   const habitID = req.params.id;
+  const { UpdateHabit } = require('../services/habitService');
   UpdateHabit({ userID, habitID, values: req.body })
     .then(() => res.sendStatus(204))
     .catch((error) => next(error))

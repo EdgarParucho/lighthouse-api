@@ -3,4 +3,4 @@ const isValidDate = (value) => {
   return !isNaN(date.getTime());
 };
 
-module.exports = isValidDate;
+module.exports = { isValidDate };

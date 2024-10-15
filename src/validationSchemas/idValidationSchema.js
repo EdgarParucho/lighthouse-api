@@ -1,4 +1,4 @@
-const isUUIDv4 = require('../utils/UUIDv4Validator.js')
+const { isUUIDv4 } = require('../utils/UUIDv4Validator.js')
 
 const idSchema = {
   id: {
