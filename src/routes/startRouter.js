@@ -7,7 +7,7 @@ router.get('/', startHandler);
 function startHandler(req, res, next) {
   const userID = req.auth.payload.sub;
   start(userID)
-    .then(({ statusCode = 200, ...data }) => res.status(statusCode).json({ ...data }))
+    .then(({ created, ...data }) => res.status(created ? 201 : 200).json({ ...data }))
     .catch((error) => next(error));
 }
 

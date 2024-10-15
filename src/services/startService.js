@@ -10,7 +10,7 @@ const start = (id) => new Promise((resolve, reject) => User.findOrCreate({
   attributes: { exclude: 'id' },
 })
   .then(([user, created]) => resolve({
-    statusCode: created ? 201 : 200,
+    created,
     habits: user.dataValues.habits,
     records: user.dataValues.records,
   }))
