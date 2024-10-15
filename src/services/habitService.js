@@ -6,13 +6,20 @@ const CreateHabit = (values) => new Promise((resolve, reject) => Habit.create(va
   .catch((error) => reject(error))
 );
 
-const updateHabit = ({ habitID: id, userID, values }) => new Promise((resolve, reject) => {
+const UpdateHabit = ({ userID, habitID: id, values }) => new Promise((resolve, reject) => {
   Habit.update(values, { where: { id, userID } })
+    .then(() => resolve())
+    .catch((error) => reject(error))
+});
+
+const DeleteHabit = ({ userID, habitID: id }) => new Promise((resolve, reject) => {
+  Habit.destroy({ where: { userID, id } })
     .then(() => resolve())
     .catch((error) => reject(error))
 });
 
 module.exports = {
   CreateHabit,
-  updateHabit,
-}
+  UpdateHabit,
+  DeleteHabit,
+};
