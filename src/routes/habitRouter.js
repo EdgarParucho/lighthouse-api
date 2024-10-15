@@ -2,7 +2,11 @@ const express = require('express');
 const router = express.Router();
 const { CreateHabit, updateHabit } = require('../services/habitService');
 const schemaValidator = require('../middleware/schemaValidator');
-const { createHabitSchema, updateHabitSchema } = require('../utils/validationSchemas');
+const idSchema = require('../validationSchemas/idValidationSchema');
+const {
+  createHabitSchema,
+  updateHabitSchema,
+} = require('../validationSchemas/habitValidationSchema');
 
 router.post('/',
   schemaValidator({ validationKey: 'body', schema: createHabitSchema }),
@@ -10,6 +14,7 @@ router.post('/',
 );
 
 router.put('/:id',
+  schemaValidator({ validationKey: 'params', schema: idSchema}),
   schemaValidator({ validationKey: 'body', schema: updateHabitSchema }),
   updateHabitHandler,
 )

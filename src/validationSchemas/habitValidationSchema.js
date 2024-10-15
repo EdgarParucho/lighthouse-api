@@ -1,7 +1,4 @@
-const isValidDate = (value) => {
-  const date = new Date(value);
-  return !isNaN(date.getTime());
-};
+const isValidDate = require('../utils/dateValidator.js');
 
 const createHabitSchema = {
   name: {
