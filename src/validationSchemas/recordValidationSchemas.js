@@ -25,6 +25,31 @@ const createRecordSchema = {
   },
 };
 
+const updateRecordSchema = {
+  habitID: {
+    mandatory: false,
+    validations: [
+      (value) => typeof value == 'string',
+      (value) => isUUIDv4(value),
+    ],
+  },
+  note: {
+    mandatory: false,
+    validations: [
+      (value) => value == null || typeof value == 'string',
+      (value) => value == null || (value.length >= 0 && value.length <= 2000),
+    ],
+  },
+  date: {
+    mandatory: false,
+    validations: [
+      (value) => typeof value == 'string',
+      (value) => isValidDate(value),
+    ],
+  },
+};
+
 module.exports = {
   createRecordSchema,
+  updateRecordSchema,
 };
