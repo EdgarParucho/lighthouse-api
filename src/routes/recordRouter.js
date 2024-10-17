@@ -18,6 +18,11 @@ router.put('/:id',
   updateRecordHandler,
 )
 
+router.delete('/:id',
+  schemaValidator({ validationKey: 'params', schema: idSchema}),
+  deleteRecordHandler,
+)
+
 function createRecordHandler(req, res, next) {
   const userID = req.auth.payload.sub;
   const payload = { userID, ...req.body };
@@ -32,6 +37,15 @@ function updateRecordHandler(req, res, next) {
   const recordID = req.params.id;
   const { UpdateRecord } = require('../services/recordService');
   UpdateRecord({ userID, recordID, values: req.body })
+    .then(() => res.sendStatus(204))
+    .catch((error) => next(error))
+}
+
+function deleteRecordHandler(req, res, next) {
+  const userID = req.auth.payload.sub;
+  const recordID = req.params.id;
+  const { DeleteRecord } = require('../services/recordService');
+  DeleteRecord({ userID, recordID })
     .then(() => res.sendStatus(204))
     .catch((error) => next(error))
 }

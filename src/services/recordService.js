@@ -18,7 +18,14 @@ const UpdateRecord = ({ userID, recordID: id, values }) => {
   });
 };
 
+const DeleteRecord = ({ userID, recordID: id }) => new Promise((resolve, reject) => {
+  Record.destroy({ where: { userID, id } })
+    .then(() => resolve())
+    .catch((error) => reject(error))
+});
+
 module.exports = {
   CreateRecord,
   UpdateRecord,
+  DeleteRecord,
 };
