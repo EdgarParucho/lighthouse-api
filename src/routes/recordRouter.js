@@ -12,7 +12,7 @@ router.post('/',
   createRecordHandler,
 );
 
-router.put('/:id',
+router.patch('/:id',
   schemaValidator({ validationKey: 'params', schema: idSchema }),
   schemaValidator({ validationKey: 'body', schema: updateRecordSchema }),
   updateRecordHandler,

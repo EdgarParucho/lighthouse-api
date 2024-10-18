@@ -12,7 +12,7 @@ router.post('/',
   createHabitHandler,
 );
 
-router.put('/:id',
+router.patch('/:id',
   schemaValidator({ validationKey: 'params', schema: idSchema}),
   schemaValidator({ validationKey: 'body', schema: updateHabitSchema }),
   updateHabitHandler,
