@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const bodyStateValidator = require('../middleware/bodyStateValidator');
 const schemaValidator = require('../middleware/schemaValidator');
 const idSchema = require('../validationSchemas/idValidationSchema');
 const {
@@ -8,17 +9,20 @@ const {
 } = require('../validationSchemas/habitValidationSchema');
 
 router.post('/',
+  bodyStateValidator({ required: true }),
   schemaValidator({ validationKey: 'body', schema: createHabitSchema }),
   createHabitHandler,
 );
 
 router.patch('/:id',
+  bodyStateValidator({ required: true }),
   schemaValidator({ validationKey: 'params', schema: idSchema}),
   schemaValidator({ validationKey: 'body', schema: updateHabitSchema }),
   updateHabitHandler,
 )
 
 router.delete('/:id',
+  bodyStateValidator({ required: false }),
   schemaValidator({ validationKey: 'params', schema: idSchema}),
   deleteHabitHandler,
 )

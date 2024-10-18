@@ -1,14 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const bodyStateValidator = require('../middleware/bodyStateValidator');
 const schemaValidator = require('../middleware/schemaValidator');
 const { updateAccountSchema } = require('../validationSchemas/accountValidationSchema');
 
 router.patch('/',
+  bodyStateValidator({ required: true }),
   schemaValidator({ validationKey: 'body', schema: updateAccountSchema }),
   updateAccountHandler,
 );
 
-router.delete('/', deleteAccountHandler);
+router.delete('/', bodyStateValidator({ required: false }), deleteAccountHandler);
 
 function updateAccountHandler(req, res, next) {
   const userID = req.auth.payload.sub;

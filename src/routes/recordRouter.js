@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const bodyStateValidator = require('../middleware/bodyStateValidator');
 const schemaValidator = require('../middleware/schemaValidator');
 const {
   createRecordSchema,
@@ -8,17 +9,20 @@ const {
 const idSchema = require('../validationSchemas/idValidationSchema');
 
 router.post('/',
+  bodyStateValidator({ required: true }),
   schemaValidator({ validationKey: 'body', schema: createRecordSchema }),
   createRecordHandler,
 );
 
 router.patch('/:id',
+  bodyStateValidator({ required: true }),
   schemaValidator({ validationKey: 'params', schema: idSchema }),
   schemaValidator({ validationKey: 'body', schema: updateRecordSchema }),
   updateRecordHandler,
 )
 
 router.delete('/:id',
+  bodyStateValidator({ required: false }),
   schemaValidator({ validationKey: 'params', schema: idSchema}),
   deleteRecordHandler,
 )

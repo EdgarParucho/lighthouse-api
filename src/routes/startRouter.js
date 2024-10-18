@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const bodyStateValidator = require('../middleware/bodyStateValidator');
 const { start } = require('../services/startService.js');
 
-router.get('/', startHandler);
+router.get('/', bodyStateValidator({ required: false }), startHandler);
 
 function startHandler(req, res, next) {
   const userID = req.auth.payload.sub;
