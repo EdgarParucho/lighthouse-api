@@ -1,3 +1,6 @@
+const sequelize = require('../dataAccess/sequelize');
+const { User } = sequelize.models;
+
 const {
   issuerBaseURL,
   managementGrantType: grant_type,
@@ -24,9 +27,9 @@ function getManagementAccesToken() {
     
 }
 
-const UpdateAccount = ({ userID, values }) => new Promise(async (resolve, reject) => {
+const UpdateAccount = ({ userID: id, values }) => new Promise(async (resolve, reject) => {
   const accessToken = await getManagementAccesToken();
-  fetch(`${issuerBaseURL}api/v2/users/${userID}`, {
+  fetch(`${issuerBaseURL}api/v2/users/${id}`, {
     method: 'PATCH',
     headers: {
       'Authorization': `Bearer ${accessToken}`,
@@ -38,6 +41,23 @@ const UpdateAccount = ({ userID, values }) => new Promise(async (resolve, reject
     .catch((error) => reject(error))
 })
 
+const DeleteAccount = ({ userID: id }) => new Promise(async (resolve, reject) => {
+  const accessToken = await getManagementAccesToken();
+  fetch(`${issuerBaseURL}api/v2/users/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(async () => {
+      await User.destroy({ where: { id } })
+      resolve();
+    })
+    .catch((error) => reject(error))
+})
+
 module.exports = {
   UpdateAccount,
+  DeleteAccount,
 };
