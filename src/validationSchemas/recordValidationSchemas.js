@@ -1,4 +1,4 @@
-const { isValidDate } = require("../utils/dateValidator");
+const { isValidDate } = require("../utils/dateUtils");
 const { isUUIDv4 } = require("../utils/UUIDv4Validator");
 
 const createRecordSchema = {
