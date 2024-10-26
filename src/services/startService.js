@@ -18,6 +18,7 @@ const start = (id) => new Promise((resolve, reject) => User.findOrCreate({
       where: { date: { [Op.gte]: firstOfMonth() } },
     },
   ],
+  order: [[{ model: Record, as: 'records' }, 'date', 'DESC']],
   attributes: { exclude: 'id' },
 })
   .then(([user, created]) => resolve({
