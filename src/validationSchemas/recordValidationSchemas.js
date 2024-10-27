@@ -49,7 +49,25 @@ const updateRecordSchema = {
   },
 };
 
+const getRecordSchema = {
+  from: {
+    mandatory: true,
+    validations: [
+      (value) => typeof value =='string',
+      (value) => isValidDate(value),
+    ]
+  },
+  to: {
+    mandatory: true,
+    validations: [
+      (value) => typeof value =='string',
+      (value) => isValidDate(value),
+    ]
+  }
+};
+
 module.exports = {
   createRecordSchema,
   updateRecordSchema,
+  getRecordSchema,
 };

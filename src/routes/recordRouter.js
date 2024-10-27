@@ -5,6 +5,7 @@ const schemaValidator = require('../middleware/schemaValidator');
 const {
   createRecordSchema,
   updateRecordSchema,
+  getRecordSchema,
 } = require('../validationSchemas/recordValidationSchemas');
 const idSchema = require('../validationSchemas/idValidationSchema');
 
@@ -23,8 +24,14 @@ router.patch('/:id',
 
 router.delete('/:id',
   bodyStateValidator({ required: false }),
-  schemaValidator({ validationKey: 'params', schema: idSchema}),
+  schemaValidator({ validationKey: 'params', schema: idSchema }),
   deleteRecordHandler,
+)
+
+router.get('/',
+  bodyStateValidator({ required: false }),
+  schemaValidator({ validationKey: 'query', schema: getRecordSchema }),
+  getRecordsHandler,
 )
 
 function createRecordHandler(req, res, next) {
@@ -51,6 +58,15 @@ function deleteRecordHandler(req, res, next) {
   const { DeleteRecord } = require('../services/recordService');
   DeleteRecord({ userID, recordID })
     .then(() => res.sendStatus(204))
+    .catch((error) => next(error))
+}
+
+function getRecordsHandler(req, res, next) {
+  const userID = req.auth.payload.sub;
+  const { from, to } = req.query;
+  const { GetRecords } = require('../services/recordService');
+  GetRecords({ userID, from, to })
+    .then((data) => res.json(data))
     .catch((error) => next(error))
 }
 
