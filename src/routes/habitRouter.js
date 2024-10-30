@@ -30,7 +30,7 @@ router.delete('/:id',
 function createHabitHandler(req, res, next) {
   const userID = req.auth.payload.sub;
   const { CreateHabit } = require('../services/habitService');
-  CreateHabit({ userID, name: req.body.name })
+  CreateHabit({ userID, ...req.body })
     .then((data) => res.status(201).json(data))
     .catch((error) => next(error))
 }
