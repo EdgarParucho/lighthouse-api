@@ -1,7 +1,5 @@
 const sequelize = require('../dataAccess/sequelize');
-const { Op } = require('sequelize');
 const { User, Habit, Record } = sequelize.models;
-const { firstOfMonth } = require('../utils/dateUtils')
 
 const start = (id) => new Promise((resolve, reject) => User.findOrCreate({
   where: { id },
@@ -15,7 +13,6 @@ const start = (id) => new Promise((resolve, reject) => User.findOrCreate({
       model: Record,
       as: 'records',
       attributes: { exclude: 'userID' },
-      where: { date: { [Op.gte]: firstOfMonth() } },
     },
   ],
   order: [
