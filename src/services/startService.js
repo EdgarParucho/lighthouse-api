@@ -28,8 +28,8 @@ const start = (id) => new Promise((resolve, reject) => User.findOrCreate({
 })
   .then(([user, created]) => resolve({
     created,
-    habits: user.dataValues.habits,
-    records: user.dataValues.records,
+    habits: created ? [] : user.dataValues.habits,
+    records: created ? [] : user.dataValues.records,
   }))
   .catch((error) => reject(error))
 );
