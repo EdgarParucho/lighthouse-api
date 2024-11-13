@@ -12,7 +12,6 @@ const habitSchema = {
   },
   name: {
     allowNull: false,
-    unique: true,
     type: DataTypes.STRING(30),
     validate: {
       len: {
