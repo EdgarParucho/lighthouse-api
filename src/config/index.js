@@ -1,3 +1,6 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 module.exports = {
   dbURL: process.env.DB_URL,
   audience: process.env.AUDIENCE,
@@ -6,4 +9,5 @@ module.exports = {
   managementGrantType: process.env.MANAGEMENT_GRANT_TYPE,
   managementClientID: process.env.MANAGEMENT_CLIENT_ID,
   managementClientSecret: process.env.MANAGEMENT_CLIENT_SECRET,
+  demoUser: process.env.DEMO_USER,
 };
