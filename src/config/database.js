@@ -1,10 +1,24 @@
-const { dbURL } = require('.');
+const { environment } = require('./server');
+
+if (environment === 'development') require('dotenv').config();
 
 module.exports = {
-  url: dbURL,
-  dialect: 'postgres',
-  dialectOptions: {
-    ssl: process.env.NODE_ENV === "production",
+  development: {
+    dialect: process.env.DB_DIALECT_DEV,
+    username: process.env.DB_USER_DEV,
+    password: process.env.DB_PASSWORD_DEV,
+    database: process.env.DB_NAME_DEV,
+    host: process.env.DB_HOST_DEV,
+    port: process.env.DB_PORT_DEV,
+    dialectOptions: {}
   },
-  logging: console.log
+  production: {
+    dialect: process.env.DB_DIALECT,
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialectOptions: { ssl: true },
+  }
 };

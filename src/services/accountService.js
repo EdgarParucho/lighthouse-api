@@ -3,10 +3,10 @@ const { User } = sequelize.models;
 
 const {
   issuerBaseURL,
-  managementGrantType: grant_type,
-  managementClientID: client_id,
-  managementClientSecret: client_secret,
-} = require('../config');
+  authGrantType: grant_type,
+  authClientID: client_id,
+  authClientSecret: client_secret,
+} = require('../config/auth');
 
 function getManagementAccesToken() {
   return fetch(`${issuerBaseURL}oauth/token`, {

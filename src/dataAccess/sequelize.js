@@ -1,10 +1,12 @@
 const { Sequelize } = require('sequelize');
-const { url, ...options } = require('../config/database.js');
+const { environment } = require('../config/server.js');
+const database = require('../config/database.js')[environment];
 const setupModels = require('../models/index.js');
 
-const sequelize = new Sequelize(url, {
+const sequelize = new Sequelize({
+  ...database,
   dialectModule: require('pg'),
-  ...options,
+  logging: environment === 'production' ? false : console.log,
 });
 
 setupModels(sequelize);

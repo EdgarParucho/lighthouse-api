@@ -1,6 +1,7 @@
 'use strict';
 
-const demoUserID = require('../src/config/index.js').demoUser
+const demoUserID = require('../src/config/auth').demoUser
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {

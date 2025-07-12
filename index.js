@@ -1,23 +1,19 @@
-require('dotenv').config()
+const cors = require('cors');
+const morgan = require('morgan');
 const express = require('express');
 const app = express();
-const cors = require('cors');
-const { authErrorHandler } = require('./src/middleware/authErrorHandler');
-const { dbErrorHandler } = require('./src/middleware/dbErrorHandler');
-const { serverErrorHandler } = require('./src/middleware/serverErrorHandler');
-const devMode = process.env.NODE_ENV == 'development';
-if (devMode) require('./src/utils/useDevTools').useDevTools(app);
 
+const { environment, port } = require('./src/config/server');
+const { router } = require('./src/routes');
+const errorHandler = require('./src/middleware/errorHandler');
+
+app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api', require('./src/routes'));
-app.use('/*', (req, res) => res.sendStatus(404));
-app.use(authErrorHandler);
-app.use(dbErrorHandler);
-app.use(serverErrorHandler);
+app.use(router);
+app.use(errorHandler);
 
-const port = devMode ? 3000 : process.env.PORT;
-app.listen(port, () => console.log(`\nServer on: http://localhost:${port}`));
+app.listen(port, () => environment === 'production' ? {} : console.log(`Running on port ${port}`));
 
 module.exports = app;
