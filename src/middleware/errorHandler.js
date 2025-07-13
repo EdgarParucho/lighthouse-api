@@ -1,3 +1,10 @@
+const { environment } = require('../config/server');
+
+function errorLogger(error, req, res, next) {
+  if (environment === 'development') console.error(error);
+  next(error);
+}
+
 function authErrorHandler(error, req, res, next) {
   const { UnauthorizedError } = require('express-oauth2-jwt-bearer');
   if (error instanceof UnauthorizedError) return res.sendStatus(401);
@@ -16,4 +23,4 @@ function serverErrorHandler(error, req, res, next) {
   return res.sendStatus(500);
 }
 
-module.exports = [authErrorHandler, dbErrorHandler, serverErrorHandler];
+module.exports = [errorLogger, authErrorHandler, dbErrorHandler, serverErrorHandler];
