@@ -5,7 +5,6 @@ const demoUserID = require('../src/config/auth').demoUser
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('users', [{ id: demoUserID }], {});
     await queryInterface.bulkInsert('habits', [
       { id: 'e90780b3-a464-464b-9073-82ead2dc3dcd',
         name: 'Studying',

@@ -1,6 +1,5 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const HABIT_TABLE = 'habits';
-const { USER_TABLE } = require('./userModel');
 
 const habitSchema = {
   id: {
@@ -24,11 +23,6 @@ const habitSchema = {
     field: 'user_id',
     allowNull: false,
     type: DataTypes.STRING,
-    references: {
-      model: USER_TABLE,
-      key: 'id',
-    },
-    onDelete: 'CASCADE',
     required: true,
   },
   createdAt: {
@@ -40,7 +34,6 @@ const habitSchema = {
 
 class Habit extends Model {
   static associate(models) {
-    this.belongsTo(models.User, { as: 'user', foreignKey: 'id' });
     this.hasMany(models.Record, { as: 'records', foreignKey: 'habitID' });
   }
   static config(sequelize) {

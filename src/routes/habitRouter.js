@@ -8,26 +8,36 @@ const {
   updateHabitSchema,
 } = require('../validationSchemas/habitValidationSchema');
 
+router.get('/', bodyStateValidator({ required: false }), getHandler);
+
 router.post('/',
   bodyStateValidator({ required: true }),
   schemaValidator({ validationKey: 'body', schema: createHabitSchema }),
-  createHabitHandler,
+  createHandler,
 );
 
 router.patch('/:id',
   bodyStateValidator({ required: true }),
   schemaValidator({ validationKey: 'params', schema: idSchema}),
   schemaValidator({ validationKey: 'body', schema: updateHabitSchema }),
-  updateHabitHandler,
+  updateHandler,
 )
 
 router.delete('/:id',
   bodyStateValidator({ required: false }),
   schemaValidator({ validationKey: 'params', schema: idSchema}),
-  deleteHabitHandler,
+  deleteHandler,
 )
 
-function createHabitHandler(req, res, next) {
+function getHandler(req, res, next) {
+  const userID = req.auth.payload.sub;
+  const { GetHabit } = require('../services/habitService');
+  GetHabit(userID)
+    .then((data) => res.status(200).json(data))
+    .catch((error) => next(error));
+}
+
+function createHandler(req, res, next) {
   const userID = req.auth.payload.sub;
   const { CreateHabit } = require('../services/habitService');
   CreateHabit({ userID, ...req.body })
@@ -35,7 +45,7 @@ function createHabitHandler(req, res, next) {
     .catch((error) => next(error))
 }
 
-function updateHabitHandler(req, res, next) {
+function updateHandler(req, res, next) {
   const userID = req.auth.payload.sub;
   const habitID = req.params.id;
   const { UpdateHabit } = require('../services/habitService');
@@ -44,7 +54,7 @@ function updateHabitHandler(req, res, next) {
     .catch((error) => next(error))
 }
 
-function deleteHabitHandler(req, res, next) {
+function deleteHandler(req, res, next) {
   const userID = req.auth.payload.sub;
   const habitID = req.params.id;
   const { DeleteHabit } = require('../services/habitService');

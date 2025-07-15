@@ -1,6 +1,5 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const RECORD_TABLE = 'records';
-const { USER_TABLE } = require('./userModel');
 const { HABIT_TABLE } = require('./habitModel');
 
 const recordSchema = {
@@ -22,11 +21,6 @@ const recordSchema = {
     field: 'user_id',
     allowNull: false,
     type: DataTypes.STRING,
-    references: {
-      model: USER_TABLE,
-      key: 'id',
-    },
-    onDelete: 'CASCADE',
     required: true,
   },
   habitID: {
@@ -44,7 +38,6 @@ const recordSchema = {
 
 class Record extends Model {
   static associate(models) {
-    this.belongsTo(models.User, { as: 'user', foreignKey: 'id' });
     this.belongsTo(models.Habit, { as: 'habit', foreignKey: 'id' });
   }
 

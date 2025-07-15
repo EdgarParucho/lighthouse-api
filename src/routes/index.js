@@ -1,18 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const { jwtCheck } = require('../middleware/authenticator');
-const { startRouter } = require('./startRouter');
 const { habitRouter } = require('./habitRouter');
 const { recordRouter } = require('./recordRouter');
 const { accountRouter } = require('./accountRouter');
 const { demoUser } = require('../config/auth');
 
-router.use('/api/start', jwtCheck, startRouter);
 router.use('/api/habit', jwtCheck, habitRouter);
 router.use('/api/record', jwtCheck, recordRouter);
 router.use('/api/account', jwtCheck, accountRouter);
 router.use('/api/public', setDemoData);
-router.use('/api/public/start', startRouter);
 router.use('/api/public/habit', habitRouter);
 router.use('/api/public/record', recordRouter);
 router.use('/api/public/account', accountRouter);

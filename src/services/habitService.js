@@ -1,6 +1,36 @@
 const sequelize = require('../dataAccess/sequelize');
 const { Habit, Record } = sequelize.models;
 const { Op, ValidationError } = require('sequelize');
+const { firstOfMonth } = require('../utils/dateUtils')
+
+const GetHabit = (userID) => new Promise((resolve, reject) => Habit.findAll({
+  where: { userID },
+  include: [
+    {
+      model: Record,
+      as: 'records',
+      attributes: { exclude: 'userID' },
+      where: { date: { [Op.gte]: firstOfMonth() } },
+      required: false,
+    },
+  ],
+  order: [
+    [{ model: Record, as: 'records' }, 'date', 'DESC'],
+  ],
+  attributes: { exclude: 'userID' },
+})
+  .then((data) => {
+    const records = [];
+    const habits = [];
+    data.forEach(({ dataValues }) => {
+      const { records: habitRecords, ...rest } = dataValues;
+      records.push(...habitRecords)
+      habits.push(rest)
+    });
+    resolve({ habits, records})
+  })
+  .catch((error) => reject(error))
+);
 
 const CreateHabit = (values) => new Promise((resolve, reject) => Habit.create(values)
   .then(({ id, name, createdAt }) => resolve({ id, name, createdAt }))
@@ -37,6 +67,7 @@ function validateDate(id, date) {
 }
 
 module.exports = {
+  GetHabit,
   CreateHabit,
   UpdateHabit,
   DeleteHabit,
